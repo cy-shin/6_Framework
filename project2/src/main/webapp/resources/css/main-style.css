@@ -1,0 +1,434 @@
+*{
+    box-sizing: border-box;
+    
+    /* 각 HTML 요소가 가진 padding, margin 0으로 해서 없앰*/
+    padding: 0;
+    margin: 0;
+}
+/* 
+div, span, main, header, footer, nav, aside, section, article{
+    border: 1px solid black;
+} 
+*/
+
+main{
+    width: 1140px;
+    margin: auto; /* body태그 가로방향 가운데에 배치 */
+}
+
+/* footer */
+footer{
+    height: 200px;
+    background-color: #a3add342;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+footer > p{
+    font-weight: bold;
+    margin: 16px 0;
+}
+
+footer > article > *{
+    text-decoration: none;
+    font-size: 14px;
+    color: black
+}
+
+footer span{
+    padding: 0 10px;
+}
+
+/* header */
+header{
+    height: 200px;
+    /* width: auto; */
+    display: flex;
+    /* 
+    내부 요소를 유연하게 배치할 때 사용 
+    -> 내부 요소가 가진 margin이 전부 0이 되고
+       한줄로 배치됨
+    */
+}
+
+/* 
+    flex-basis를 이용해서 main-axis 방향으로 일정한 크기를 갖게 하고
+    display: flex; 설정 시 align-item: stretch(기본값);이 자동으로 적용돼서
+    자식 요소인 item(여기서는 section)의 높이(cross-axis 방향)가 부모 요소(header)만큼 늘어나게 됨
+*/
+header > section:nth-child(1){ flex-basis:15%; }
+header > section:nth-child(2){ flex-basis:70%; }
+header > section:nth-child(3){ flex-basis:15%; }
+
+#home-logo{
+    width: 120px;
+}
+
+/* 검색창 */
+.search-area{ width: 500px; }
+        
+.search-area fieldset{
+    padding: 2px;
+    margin: 0;
+    border: 2px solid #455ba8;
+    border-radius: 5px;
+    display: flex;
+}
+
+/* 검색어 입력 상자 */
+#query{
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    width: 92%;
+    border: none;
+    outline: none;
+}
+
+/* 검색 버튼 */
+#search-btn{
+    width: 8%;
+    background-color: white;
+    border: none;
+    font-size: 1.2em;
+    color:#455ba8;
+    cursor: pointer;
+}
+
+
+header > section:nth-child(1){ 
+    flex-basis:15%; 
+    display: flex;
+    justify-content: center; /* main-axis */
+    align-items: center; /* cross-axis */
+    /* align-content: center; */ /* cross-axis wrap인 경우 */
+}
+
+/* 검색창 정가운데 배치 */
+header > section:nth-child(2){
+    display: flex;
+    justify-content: center; /* main-axis */
+    align-items: center; /* cross-axis */
+}
+
+/* nav */
+nav{
+    height: 50px;
+    border-bottom: 2px solid black;
+
+    position: sticky;
+    /* 화면 밖으로 요소가 벗어났을 때, 지정된 위치에 고정 */
+    top: 0px;
+    background-color: white;
+    
+}
+
+nav > ul{
+    margin: 0;
+    padding: 0;
+    list-style: none; /* li태그 앞에 점 삭제 */
+
+    height: 100%;
+    display: flex;
+}
+
+
+/* 네비게이터 메뉴 */
+nav li{
+    width: 150px;
+    flex-basis: 150px;
+}
+
+/* 메뉴 내부 a태그 */
+nav li > a{
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+
+    display: black;
+    height: 100%;
+
+    /* padding: 11px 0;
+    text-align: center; */
+
+    /* a태그 자체를 flex로 바꾸고 내부에 작성된 글자를 요소로 취급해서 정가운데에 배치  */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 5px;
+}
+
+/* 메뉴에 마우스가 올라왔을 떄 */
+nav li > a:hover{
+    background-color: #455ba8;
+    color: white;
+    /* cursor: pointer; */
+    transition-duration: 0.1s;
+}
+
+/* content */
+.content{
+    height: 800px;
+    display: flex;
+}
+
+.content-1{ flex-basis: 70%; }
+
+.content-2{ flex-basis: 30%; }
+
+/* login 폼 */
+form[name="login-frm"]{
+    height: 150px;
+    padding: 10px;
+    margin-top: 10px;
+    display: flex;
+
+    /* main-axis를 세로로 변경 */
+    flex-direction: column;
+
+    /* main-axis의 가운데에 배치 */
+    justify-content: center;
+}
+
+/* 아이디, 비밀번호, 로그인 버튼 영역 */
+/* flex-container이면서 동시에 form 태그의 item이기도 함 */
+#id-pw-area{
+    margin: 0;
+    padding: 0;
+    
+    border: 1px solid #ddd;
+
+    display: flex;
+
+    /* form 태그 내부에서 중심축 방향으로 60%만큼 차지 */
+    flex-basis: 60%;
+    /* item이라서 사용할 수 있음! */
+}
+
+/* 아이디, 비밀번호 영역 */
+#id-pw-area > section:first-child{
+    flex-basis: 75%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 아이디, 비밀번호 input 태그 */
+#id-pw-area > section:first-child > input{
+    flex-basis: 50%;
+
+    border: none;
+    outline: none; /* input태그에는 focus 효과가 있으므로 outline을 꼭 신경쓸 것 */
+
+    padding: 5px;
+
+    border-right: 1px solid #ddd;
+}
+
+
+#id-pw-area > section:first-child > input[name="inputId"]{
+    border-bottom: 1px solid #ddd;
+}
+/* 그냥 input을 적으면 태그 우선순위때문에 #id-pw-area > section:first-child > input의 속성이 적용됨 */
+
+/* id, pw input 태그에 포커스가 맞춰졌을 때 */
+#id-pw-area > section:first-child > input:focus{
+    border: 2px solid #455ba8
+}
+
+/* 로그인 버튼 영역 */
+#id-pw-area > section:last-child{
+    flex-basis: 25%;
+    /* border-left: 1px solid #ddd; */
+    display: flex;
+
+}
+
+  /* 로그인 버튼 영역 */
+#id-pw-area > section:last-child > button{
+    /* flex-basis: 100%; 요소가 하나만 있으므로 기본 100% */
+    width: 100%;
+    /* border-left: 1px solid #ddd; */
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#id-pw-area > section:last-child > button:hover{
+    background-color: #455ba8;
+    color: white;
+    transition-duration: 0.2s;
+}
+    
+/* 회원가입, ID/PW 찾기 영역 */
+#signUp-find-area{
+    margin-top: 10px;
+    padding-left: 5px;
+}
+
+#signUp-find-area > a{
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+}
+
+#signUp-find-area > span{
+    padding: 0 10px;
+}
+
+form[name="login-frm"] > label{
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+/* ************************************************* */
+
+/* 헤더 오른쪽 상단 메뉴 */
+header{ position: relative; /* 상대적인 기준 제공 */}
+
+#header-top-menu{
+    position: absolute;
+    right: 0;
+    top: 5px;
+}
+
+#header-top-menu a{
+    text-decoration: none;
+    color: black;
+}
+
+#header-top-menu *{
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#header-menu-toggle{
+    display: none;
+}
+/* 오른쪽 상단 닉네임 */
+/* label 태그 중 for 속성이 heaer-menu-toggle */
+label[for="header-menu-toggle"] {
+    cursor: pointer;
+}
+
+label[for="header-menu-toggle"]:hover {
+    text-decoration: underline;
+}
+/* 동위선택자 중 인접형제선택자 */
+#header-menu-toggle + div{
+    display: none;
+}
+
+/* 체크박스가 체크된 경우 다음 div */
+#header-menu-toggle:checked + div{
+    display: block;
+}
+
+/* 닉네임 클릭 시 보이는 메뉴 */
+#header-menu{
+    position: absolute;
+    z-index: 500;
+    width: 100px;
+    height: 80px;
+    right: 0;
+    margin-top: 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+/* 메뉴 내 칸 배치 */
+#header-menu a{
+    display: flex;
+    height: 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+#header-menu a:nth-child(1){
+    border-bottom: 1px solid #ccc;
+}
+
+#header-menu >a:hover{
+    background-color: #455ba890;
+}
+/* ********************************************************* */
+
+/* 로그인 성공 시 화면 */
+.login-area{
+    height: 120px;
+    padding: 30px 10px;
+    margin: 10px 0;
+
+    border: 1px solid black;
+    border-radius: 10px;
+
+    display: flex;
+
+    align-items: center;
+}
+
+/* 프로필 이미지 */
+#member-profile{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%; /* 원형 모양 */
+}
+
+.login-area > a{
+    display: block;
+    width: 70px;
+    height: 70px;
+    border: 3px solid #ddd;
+    border-radius: 50%;
+}
+
+/* 회원 정보 + 로그아웃 버튼 */
+.my-info{
+    width: 100%;
+    height: 100%;
+    margin-left: 20px;
+}
+
+.my-info > div{
+    display: flex;
+    justify-content: space-between;
+}
+
+.my-info a{ text-decoration: none; }
+
+/* 닉네임 */
+#nickname{
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: -3px;
+}
+
+/* 로그아웃 버튼 */
+#logout-btn{
+    color: gray;
+    font-size: 14px;
+    font-weight: bold;
+
+    border: 2px solid gray;
+    padding: 3px 5px;
+    border-radius: 10px;
+}
+
+#logout-btn:hover{
+    color: white;
+    background-color: gray;
+    transition-duration: 0.2s;
+}
+
+#logout-btn:active{
+    transform: scale(0.9);
+    transition-duration: 0.1s;
+}
+
+.my-info > p{
+    margin: 0;
+    color: gray;
+}
