@@ -86,7 +86,7 @@
     	<version>2.0.7</version>
 		</dependency>
 		
-		<!-- DataBase Connection Pool 사용을 위한 라이브러리(commons-dbcp2) -->
+		<!-- DataBase Connection Pool 사용을 위한 라이브러리(commons-dbcp2) ( DBCP 커넥션 풀)-->
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
 		<dependency>
     	<groupId>org.apache.commons</groupId>

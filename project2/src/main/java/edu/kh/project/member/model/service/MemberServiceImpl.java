@@ -34,16 +34,23 @@ public class MemberServiceImpl implements MemberService {
 		// 기존에는 트랜잭션 제어를 하기 위해 connection을 사용했는데 이제 aop를 사용해 트랜잭션을 제어하므로 필요 없음
 		Member loginMember = dao.login(inputMember.getMemberEmail());
 		
-		
 		// 2. 입력 받은 비밀번호(평문) vs 조회한 암호화된 비밀번호(암호문) 비교
 		//    BCryptPasswordEncode.matches(평문, 암호문) -> 일치하면 true, 다르면 false
-		
-		// 3-1. 비밀번호가 일치하면 조회된 회원 정보를 반환
-		//      단, 비밀번호는 제거(반환X)
+		if(loginMember != null) { // 아이디 정상 입력
+			
+			// 3-1. 비밀번호가 일치하면 조회된 회원 정보를 반환
+			//      단, 비밀번호는 제거(반환X)
+			if(bcrypt.matches(inputMember.getMemberPw(), loginMember.getMemberPw())) { 
+				loginMember.setMemberPw(null);
+			} else{
+				loginMember = null;
+			}
+			
+		}
 		
 		// 3-2. 비밀번호가 일치하지 않으면 null을 반환
 		
-		return null;
+		return loginMember;
 	}
 
 	

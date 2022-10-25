@@ -140,6 +140,9 @@ public class MemberController {
 		// 서비스 호출 후 결과 반환 받기
 		Member loginMember = service.login(inputMember);
 		
+		// 로그인 성공 시 loginMember를 세션에 추가
+		// 로그인 실패 시 "아이디 또는 비밀번호가 일치하지 않습니다" 세션에 추가
+		
 		return "redirect:/";
 	}
 	
