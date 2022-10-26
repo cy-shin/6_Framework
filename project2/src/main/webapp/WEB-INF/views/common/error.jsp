@@ -9,9 +9,10 @@
     <style>
         body{
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 100%;
         }
 
         .error-container{
@@ -33,12 +34,24 @@
             text-align: center;
         }
 
-    
+        .alert-img{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        img{
+            width: 200px;
+            height: 200px;
+        }
     
     </style>
 
 </head>
 <body>
+    <div class="alert-img">
+        <img src="/resources/images/warning.png" >
+    </div>
     <div class="error-container">
         <h1>${errorMessage}</h1>
 

@@ -29,11 +29,12 @@
 3. header 작업에 영향을 주지 않으려고(header에 작성할 경우 다른 코드의 진행이 멈출 수 있음)
 
  --%>
-<c:if test="${!empty sessionScope.message}">
+<c:if test="${!empty message}">
     <script>
-        alert("${sessionScope.message}")
+        alert("${message}")
     </script>
 
-    <%-- message 1회 출력 후 session scope에서 삭제 --%>
-    <c:remove var="message" scope="session" />
+    <%-- message 1회 출력 후 모든 scope 삭제 --%>
+    <c:remove var="message" />
+    <%-- message라고만 입력하면 page, request, session, applicaton 스코프의 변수값을 모두 확인 --%>
 </c:if>

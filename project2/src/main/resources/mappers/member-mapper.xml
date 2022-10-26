@@ -28,7 +28,7 @@
 				<!-- 나머지 일반 컬럼 -->
 				<result property="memberEmail" column="MEMBER_EMAIL" />
 				<result property="memberPw" column="MEMBER_PW" />
-				<result property="memberNickname" column="MEMBER_NICKNAME" />
+				<result property="memberNickName" column="MEMBER_NICKNAME" />
 				<result property="memberTel" column="MEMBER_TEL" />
 				<result property="memberAddress" column="MEMBER_ADDRESS" />
 				<result property="profileImage" column="PROFILE_IMG" />
@@ -69,16 +69,33 @@
 		
 	
 	
-	<!-- 로그인 -->
+	<!-- 로그인 -->                          <!-- SELECT의 결과를 담을 Map -->
 	<select id="login" parameterType="string" resultMap="member_rm">
 		SELECT MEMBER_NO, MEMBER_EMAIL, MEMBER_PW, MEMBER_NICKNAME,
 	  			 MEMBER_TEL, MEMBER_ADDRESS, PROFILE_IMG, AUTHORITY,
 	  			 TO_CHAR(ENROLL_DATE, 'YYYY"년" MM"월" DD"일" HH24"시" MI"분" SS"초"') AS ENROLL_DATE
 		FROM "MEMBER"
 		WHERE MEMBER_DEL_FL = 'N'
-		AND MEMBER_EMAIL = #{memberEmail}
+		AND MEMBER_EMAIL = #{memberEmail};;;
 	</select>
 	
+	<!-- insert / update / delete
+				항상 반영된 행의 개수(int type)가 반환되기 떄문에
+				별도의 resultType 지정이 필요하지 않다.
+	
+	 -->
+
+
+	<!-- 회원가입 -->													<!--   -->
+	<!-- 정석 -->															<!-- Member 타입의 데이터를 가져옴 / 기본적으로 getter가 적용되어 있음 -->						
+	<insert id="signUp" parameterType="edu.kh.project.member.model.vo.Member">
+	INSERT INTO "MEMBER" 
+	VALUES(SEQ_MEMBER_NO.NEXTVAL, #{memberEmail}, #{memberPw}, #{memberNickName}, #{memberTel}, #{memberAddress},
+			   default, default, default, default)
+	</insert>
+	
+	<!-- 별칭도 사용 가능함 -->
+	<!-- <insert id="signUp" parameterType="member" result="result"> -->
 	
 	
 </mapper>

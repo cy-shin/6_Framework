@@ -16,7 +16,7 @@ public class Member {
 	private int memberNo;
 	private String memberEmail;
 	private String memberPw;
-	private String memberNickname;
+	private String memberNickName;
 	private String memberTel;
 	private String memberAddress;
 	private String profileImage;
