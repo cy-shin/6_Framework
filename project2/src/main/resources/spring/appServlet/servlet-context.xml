@@ -3,16 +3,29 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
+	
+	<!-- HandlerMapping 어노테이션을 인식하는 태그 == annotation-driven -->
+	<!-- @RequestMapping, @GetMapping, @PostMapping, @ExceptionHandler -->
 	<annotation-driven />
-
+	
+	<!-- 
+			 트랜잭션 처리 시 @Transactional 어노테이션 사용할 예정 @Transactional : 클래스 또는 메서드 수행 후 
+	     트랜잭션 처리를 하라고 알려주는 어노테이션 -> 해당 어노테이션을 인식하라는 설정이 필요함 -> annotation-driven 
+			 -> annotation-driven이 인식하지 못해 별도로 인식시켜주어야 함     
+	-->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- /webapp/resources 폴더 경로를 웹에서 요청했을 때 접근 가능하게 하는 태그 -->
 	<resources mapping="/resources/**" location="/resources/" />
 
  <!-- view Resolver 객체(bean) 생성 구문  -->
@@ -20,7 +33,6 @@
  		Controller에서 반환된 값 앞/뒤에 prefix/suffix를 붙여 완성된 경로의 jsp로 forward
  
   -->
- 
  
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -30,6 +42,12 @@
 	
 	<!-- bean : Spring 에서 만든 객체 -->
 	
+	<!--  componen-scan : base-package에 명시된 패키지 아래에 @Component 관련 어노테이션을 찾아 인식하여 bean으로 등록
+		부모 : @Component(<bean> 태그와 의미가 같음)
+		자식 : @Controller(프레젠테이션 레이어), @Service(서비스 레이어), @Repository(퍼시스턴스 레이어)
+		-> bean으로 등록시켜줌 (bean을 찾아서 등록하는 과정이라서 bean 스캐닝이라고도 부름)
+	
+	-->
 	<context:component-scan base-package="edu.kh.project" />
 	
 	
