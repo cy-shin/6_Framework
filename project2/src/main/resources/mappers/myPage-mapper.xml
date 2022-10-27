@@ -25,6 +25,43 @@
 				 	MEMBER_TEL = #{memberTel},
 				 	MEMBER_ADDRESS = #{memberAddress}
 				 	WHERE MEMBER_NO = #{memberNo}
-				</update>			
+				</update>
+				
+																					<!-- 값이 여러 개일때는 Map -->
+				<!-- 암호화된 비밀번호를 조회 --> <!-- object를 int타입으로 형변환했기 때문에 int보단 Integer("_int")가 더 적절함 -->
+				<select id="selectEncPw" parameterType="_int" resultType="string">
+					SELECT MEMBER_PW
+					FROM "MEMBER"
+					WHERE MEMBER_NO = #{memberNo}
+				</select>
+				
+				
+				<!-- 
+						
+						* parameterType 속성
+							- <select> : 필수
+							- <insert> / <update> / <delete> : 선택 (TypeHandler가 알아서 판단하고 가져옴)
+					
+				 -->
+				 
+				<!-- 비밀번호 변경 -->
+				<!-- 정석 : java.util.Map -->
+				<!-- <update id="changePw" parameterType="java.util.Map"> -->
+				<!-- mybatis 공식 별명 : map -->
+				<!-- <update id="changePw" parameterType="map"> -->
+				<!-- TypeHandler 활용하면 안적어도 됨(select, update, delete만) -->				
+				<update id="changePw">
+					UPDATE "MEMBER" SET
+					MEMBER_PW = #{newPw} 
+					WHERE MEMBER_NO = #{memberNo}
+					<!-- 파라미터가 맵인 경우 key값만 작성하면 값을 얻어옴 -->
+				</update>
+				
+				<!-- 탈퇴 -->
+				<update id="memberDelete">
+					UPDATE "MEMBER" SET
+					MEMBER_DEL_FL = 'Y' 
+					WHERE MEMBER_NO = #{memberNo}
+				</update>
 			
 </mapper>

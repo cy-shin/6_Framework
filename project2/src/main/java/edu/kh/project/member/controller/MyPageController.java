@@ -1,11 +1,17 @@
 package edu.kh.project.member.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.project.member.model.service.MyPageService;
@@ -15,6 +21,7 @@ import edu.kh.project.member.model.vo.Member;
 // -> 요청주소 중 앞에 공통된 부분을 작성하여
 //    해당 유형의 요청을 모두 받아들인다고 알림
 @RequestMapping("/member/myPage")
+@SessionAttributes("loginMember") // 탈퇴 성공 시 로그아웃에 사용
 @Controller
 public class MyPageController {
 	
@@ -75,8 +82,90 @@ public class MyPageController {
 			message = "회원 정보 수정 실패";
 		}
 		
-		ra.addAttribute("message", message);
+		ra.addFlashAttribute("message", message);
 		
 		return "redirect:info"; // 내 정보 페이지 재요청
+	}
+
+
+	// 비밀번호 변경 페이지 이동
+	@GetMapping("/changePw")
+	public String changePw() {
+		return "member/myPage-changePw";
+	}
+	
+	// 비밀번호 변경
+	
+	@PostMapping("/changePw")
+	public String changePw( @SessionAttribute("loginMember") Member loginMember,
+							@RequestParam Map<String, Object> paramMap,
+							RedirectAttributes ra
+						  ) {
+		
+		// 1. loginMember에서 회원 번호를 얻어와 paramMap에 추가
+		paramMap.put("memberNo", loginMember.getMemberNo());
+		
+		// 2. 서비스 호출 후 결과 반환 받기
+		int result = service.changePw(paramMap);
+
+		String path = null;
+		String message = null;
+		
+		if(result > 0) {
+			path = "info";
+			message = "비밀번호가 변경되었습니다.";
+		} else {
+			path="changePw";
+			message = "현재 비밀번호가 일치하지 않습니다.";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:" + path;
+	}
+	
+	// 회원 탈퇴 페이지 이동
+	@GetMapping("/delete")
+	public String memberDelete() {
+		return "member/myPage-delete";
+	}
+	
+	// 회원 탈퇴
+	@PostMapping("/delete")
+	public String memberDelete( @SessionAttribute("loginMember") Member loginMember, 
+								String memberPw, 
+								SessionStatus status,
+								RedirectAttributes ra) {
+		int result = service.memberDelete(loginMember.getMemberNo(), memberPw);
+							 // MEMBER_DEL_FL = 'Y'으로 UPDATE
+		String message = null;
+		String path = null;
+		
+		if(result > 0) { // 성공
+			status.setComplete();
+			message = "탈퇴 되었습니다.";
+			path ="/";
+			
+		} else { // 실패
+			message = "비밀번호가 일치하지 않습니다.";
+			path = "delete"; 
+		}
+		
+		// message 전달 코드 작성
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:" + path;
+		
+		
+		
+		// status.setComplete(); // 세션 무효화
+		// -> 클래스 레벨에 작성된 @SessionAttributes("key") 에 작성된
+		//    key가 일치하는 값만 무효화함
+		
+		// ex) session에서 "loginMember"를 없애야 한다면 이를 클래스 레벨의 @SessionAttributes에 작성
+		// == @SessionAttributes("loginMember")
+		//    ...
+		//    status.complete(); // "loginMember" 무효화
+		
 	}
 }
