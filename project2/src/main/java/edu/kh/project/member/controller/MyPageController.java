@@ -142,9 +142,9 @@ public class MyPageController {
 		String path = null;
 		
 		if(result > 0) { // 성공
-			status.setComplete();
 			message = "탈퇴 되었습니다.";
 			path ="/";
+			status.setComplete();
 			
 		} else { // 실패
 			message = "비밀번호가 일치하지 않습니다.";
