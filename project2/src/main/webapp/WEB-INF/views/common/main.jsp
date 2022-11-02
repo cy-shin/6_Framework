@@ -37,7 +37,17 @@
             <%-- 로그인 x인 경우 --%>
                 <c:when test = "${empty sessionScope.loginMember}">
                        <%-- 절대 경로 방식 (현재 /가 프로젝트 최상위) --%>
-                <form action="/member/login" name="login-frm" method="POST">
+                <form action="/member/login" name="login-frm" method="POST"
+                    onsubmit="return loginValidate();">
+                    
+                    <%-- 
+                        form태그의 submit 이벤트를 취소시키는 방법1
+
+                        -> 인라인 이벤트 모델 결과로 false를 리턴하면
+                           제출 이벤트 취소된다.
+                     --%>
+
+
                     <!-- frm form -->
                     <!-- 아이디, 비밀번호, 로그인 버튼 -->
                     <fieldset id="id-pw-area"> 
@@ -64,7 +74,7 @@
                     <!-- 아이디 저장 체크박스 -->
                     <!-- label 태그 내부에 input 태그를 작성하면 label for="id"를 작성한 것처럼 만들어짐 -->
                     <label>
-                        <input type="checkbox" name="saveId" ${temp}> 아이디 저장
+                        <input type="checkbox" id="saveId" name="saveId" ${temp}> 아이디 저장
                         <%-- 쿠키가 없을경우 temp=null, el은 null을 빈칸으로 처리함 --%>
                     </label>
         
@@ -106,5 +116,7 @@
     <%-- footer.jsp 포함 --%>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
+
+    <script src="/resources/js/main.js"></script>
 </body>
 </html>
