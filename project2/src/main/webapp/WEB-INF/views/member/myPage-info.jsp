@@ -74,9 +74,12 @@
 
         </section>
 
-
     </main>
         <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+
+    <%-- myPage.js external 방식으로 추가 --%>
+    <script src="/resources/js/member/myPage.js"></script>
+    <%-- webapp 폴더 기준인거 잊지말기! --%>
 
     <!-- 다음 주소 api 추가하기 -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -96,7 +99,6 @@
                     } else { // 사용자가 지번 주소를 선택했을 경우(J)
                         addr = data.jibunAddress;
                     }
-
                     // 우편번호와 주소 정보를 해당 필드에 넣는다.
                     document.getElementById('sample6_postcode').value = data.zonecode;
                     document.getElementById("sample6_address").value = addr;
