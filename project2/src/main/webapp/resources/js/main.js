@@ -4,10 +4,11 @@ console.log("main.js loaded")
 const saveId = document.getElementById("saveId");
 
 // radio, checkbox 값이 변할 때 발생하는 이벤트 : change
-saveId.addEventListener("change", function(){
-
+saveId.addEventListener("change", function(event){
     // change는 체크가 되거나, 해제될 때 이벤트 발생
     // -> 체크 유무 검사가 필요
+    
+    console.log(event);
 
     // 이벤트 핸들러 내부 this : 이벤트가 발생한 요소(아이디 저장 checkbox)
     console.log(this.checked);
