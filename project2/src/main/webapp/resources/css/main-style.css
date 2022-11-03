@@ -337,6 +337,7 @@ label[for="header-menu-toggle"]:hover {
     margin-top: 5px;
     border: 1px solid black;
     border-radius: 10px;
+    overflow: hidden;
 }
 /* 메뉴 내 칸 배치 */
 #header-menu a{
@@ -344,6 +345,7 @@ label[for="header-menu-toggle"]:hover {
     height: 50%;
     justify-content: center;
     align-items: center;
+
 }
 
 #header-menu a:nth-child(1){
@@ -352,6 +354,7 @@ label[for="header-menu-toggle"]:hover {
 
 #header-menu >a:hover{
     background-color: #455ba890;
+
 }
 /* ********************************************************* */
 
