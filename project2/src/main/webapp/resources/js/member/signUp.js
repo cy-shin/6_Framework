@@ -36,9 +36,9 @@ signUpForm.addEventListener("submit", function(event){
             switch(key){
             case "memberEmail" : str = "이메일이 유효하지 않습니다."; break;
             case "memberPw" : str = "비밀번호가 유효하지 않습니다."; break;
-            // case "memberPwConfirm" : str = "비밀번호 확인이 유효하지 않습니다."; break;
-            // case "memberNickName" : str = "닉네임이 유효하지 않습니다." break;
-            // case "memberTel" : str = "전화번호가 유효하지 않습니다." break;
+            case "memberPwConfirm" : str = "비밀번호 확인이 유효하지 않습니다."; break;
+            case "memberNickName" : str = "닉네임이 유효하지 않습니다."; break;
+            case "memberTel" : str = "전화번호가 유효하지 않습니다."; break;
             }
             
             alert(str); // 대화상자를 출력
@@ -54,7 +54,7 @@ signUpForm.addEventListener("submit", function(event){
 const memberEmail = document.getElementById("memberEmail");
 const emailMessage = document.getElementById("emailMessage");
 const receiveCheck = emailMessage.nextElementSibling;
-memberEmail.addEventListener("keyup", function(){
+memberEmail.addEventListener("input", function(){
     // 문자가 입력되지 않은 경우
     if(memberEmail.value.trim().length == 0) {
         emailMessage.innerText = "메일을 받을 수 있는 이메일을 입력해주세요.";
@@ -94,6 +94,178 @@ memberEmail.addEventListener("keyup", function(){
         // 유효성 검사 확인 객체에 현재 상태를 저장
         checkObj.memberEmail = false;
 
+    }
+
+})
+
+// 비밀번호 유효성 검사
+const memberPw = document.getElementById("memberPw");
+const memberPwConfirm = document.getElementById("memberPwConfirm");
+const pwMessage = document.getElementById("pwMessage");
+
+// input 이벤트 : input 태그에 입력이 된 모든 경우를 인식
+memberPw.addEventListener("input", function(){
+
+    // 비밀번호가 입력되지 않은 경우
+    if(memberPw.value.trim().length == 0){
+        pwMessage.innerText = "영어, 숫자, 특수문자( !, @, #, -, _ )를 포함해 6~20글자 사이로 입력해주세요.";
+        memberPw.value = "";
+        pwMessage.classList.remove("confirm", "error"); // 검정 글씨로 변환
+        checkObj.memberPw = false;
+        return;
+    }
+
+    // 비밀번호 정규표현식 검사
+    const regEx = /^[a-zA-Z\d!@#-_]{6,20}$/;
+    if(regEx.test(memberPw.value)){ // 유효한 비밀번호
+        checkObj.memberPw = true;
+
+        if(memberPwConfirm.value.trim().length == 0) { // 입력 안된 경우
+            pwMessage.innerText = "유효한 비밀번호 형식입니다.";
+            pwMessage.classList.add("confirm");
+            pwMessage.classList.remove("error");
+        } else { // 유효한 비밀번호이면서 확인도 작성된 경우 -> 같은지 비교
+            // 비밀번호가 입력될 때
+            // 비밀번호 확인에 작성된 값과 일치하는 경우
+            if(memberPw.value == memberPwConfirm.value){
+                pwMessage.innerText = "비밀번호가 일치합니다.";
+                pwMessage.classList.add("confirm");
+                pwMessage.classList.remove("error");
+                checkObj.memberPwConfirm = true;
+            } else { // 일치하지 않는 경우
+                pwMessage.innerText = "비밀번호가 일치하지 않습니다.";
+                pwMessage.classList.add("error");
+                pwMessage.classList.remove("confirm");
+                checkObj.memberPwConfirm = false;
+            }
+        }
+
+    } else { // 유효하지 않은 비밀번호
+        pwMessage.innerText = "비밀번호 형식이 유효하지 않습니다.";
+        pwMessage.classList.add("error");
+        pwMessage.classList.remove("confirm");
+        checkObj.memberPw = false;
+    }
+
+
+})
+
+// 비밀번호 확인 유효성 검사
+memberPwConfirm.addEventListener("input", function(){
+
+    if(memberPwConfirm.value.trim().length == 0){
+        pwMessage.classList.remove("confirm", "error"); // 검정 글씨로 변환
+        if(checkObj.memberPw) {
+            pwMessage.innerText = "유효한 비밀번호 형식입니다.";
+            pwMessage.classList.add("confirm");
+            pwMessage.classList.remove("error");
+        } else {
+            pwMessage.innerText = "비밀번호 형식이 유효하지 않습니다.";
+            pwMessage.classList.add("error");
+            pwMessage.classList.remove("confirm");
+            checkObj.memberPw = false;
+        }
+        return;
+    }
+
+    if(checkObj.memberPw) {
+        // 비밀번호, 비밀번호 확인이 같은지 검사
+        if(memberPwConfirm.value == memberPw.value) {
+            pwMessage.innerText = "비밀번호가 일치합니다.";
+            pwMessage.classList.add("confirm");
+            pwMessage.classList.remove("error");
+            checkObj.memberPwConfirm = true;
+        } else {
+            pwMessage.innerText = "비밀번호가 일치하지 않습니다.";
+            pwMessage.classList.add("error");
+            pwMessage.classList.remove("confirm");
+            checkObj.memberPwConfirm = false;
+        }
+    } else { // 비밀번호가 유효하지 않은 경ㅇ우
+        checkObj.memberPwConfirm = false;
+    }
+});
+
+// 닉네임 유효성 검사
+const memberNickName = document.getElementById("memberNickName");
+const nickMessage = document.getElementById("nickMessage");
+
+memberNickName.addEventListener("input", function(){
+
+    // 닉네임에 문자가 입력되지 않은 경우
+    if(memberNickName.value.trim().length == 0) {
+        nickMessage.innerText = "한글, 영어, 숫자를 포함해 10글자 이내로 작성해주세요.";
+        nickMessage.classList.remove("confirm", "error");
+        memberNickName.value = "";
+        checkObj.memberNickName = false;
+        return;
+    }
+
+    const regEx = /^[\w가-힣]{2,10}$/;
+    // \w = [A-Za-z0-9]
+
+    // 닉네임이 올바르게 입력된 경우
+    if(regEx.test(memberNickName.value)) {
+
+        // 닉네임 중복 검사 코드 추가 예정 
+
+        nickMessage.innerText = "사용 가능한 닉네임입니다."
+        nickMessage.classList.add("confirm");
+        nickMessage.classList.remove("error");
+        checkObj.memberNickName = true;
+    } else {
+        nickMessage.innerText = "닉네임 형식이 유효하지 않습니다."
+        nickMessage.classList.add("error");
+        nickMessage.classList.remove("confirm");
+        checkObj.memberNickName = false;
+    }
+})
+
+// 전화번호 유효성 검사
+const memberTel = document.getElementById("memberTel");
+
+const telMessage = document.getElementById("telMessage");
+
+memberTel.addEventListener("input", function(){
+    // 1. 전화번호가 입력되지 않은 경우
+    
+    if(memberTel.value.trim().length == 0) {
+        telMessage.innerText = "전화번호를 입력해 주세요. (- 제외)";
+        memberTel.value = "";
+        telMessage.classList.remove("confirm", "error");
+        checkObj.memberTel = false;
+        return;
+    }
+
+    // 전화번호 정규표현식 검사
+    const regEx = /^0(1[01679]|2|[3-6][1-5]|70)[1-9]\d{2,3}\d{4}$/;
+    // /^0(1[01679]|2|[3-6][1-5]|70)[1-9]\d{2,3}\d{4}$/;
+    // ^0 : 0으로 시작
+
+    // (1[01679]|2|[3-6][1-5]|70) : 다음 조합중 하나에 해당
+    //  - 1[01679] : 1이 반드시 오고, 그 다음 숫자는 0,1,6,7,9 중 하나
+    //  - 2 : 2만 옴
+    //  - [3-6][1-5] : 3~6, 1~5로 이루어짐
+    //  - 70 :  70만 옴
+
+    // [1-9] : 1~9중 하나
+    // \d{2,3} : 숫자 형식 2개 이상 3개 이하
+    // \d{4} : 숫자 형식 4개
+    // $/ : 로 끝
+
+    // 2. 전화번호가 입력된 경우
+    if(regEx.test(memberTel.value)) {
+        // 올바른 경우
+        telMessage.innerText = "유효한 전화번호입니다.";
+        telMessage.classList.add("confirm");
+        telMessage.classList.remove("error");
+        checkObj.memberTel = true;
+    } else {
+        // 올바르지 않은 경우
+        telMessage.innerText = "전화번호 형식이 유효하지 않습니다.";
+        telMessage.classList.add("error");
+        telMessage.classList.remove("confirm");
+        checkObj.memberTel = false;
     }
 
 })

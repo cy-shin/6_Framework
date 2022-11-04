@@ -61,7 +61,7 @@
                     <input type="password" name="memberPwConfirm" id="memberPwConfirm" placeholder="비밀번호 확인"
                     maxlength="20" required>
                 </div>
-                <span class="signUp-message error">비밀번호가 일치하지 않습니다.</span>
+                <span class="signUp-message" id="pwMessage">영어, 숫자, 특수문자( !, @, #, -, _ )를 포함해 6~20글자 사이로 입력해주세요.</span>
                 
 
                 <!-- 닉네임 입력 영역 -->
@@ -72,7 +72,7 @@
                     <input type="text" name="memberNickName" id="memberNickName" placeholder="닉네임"
                     maxlength="10" required value="${tempMember.memberNickName}">
                 </div>
-                <span class="signUp-message confirm">사용 가능한 닉네임 입니다.</span>
+                <span class="signUp-message" id="nickMessage">한글, 영어, 숫자를 포함해 2~10글자 이내로 작성해주세요.</span>
                 
                 <!-- 전화번호 입력 영역 -->
                 <label for="memberTel">
@@ -83,7 +83,7 @@
                     maxlength="11" required value="${tempMember.memberTel}">
                 </div>
                                         <!-- 자리수가 모자르거나, 010으로 시작하지 않으면 -->
-                <span class="signUp-message error">전화번호 형식이 올바르지 않습니다. </span>
+                <span class="signUp-message" id="telMessage">전화번호를 입력해주세요. (- 제외) </span>
 
                 <%-- 주소 문자열 ---> 배열로 쪼개기 --%>
                 <c:set var="addr" value="${fn:split(tempMember.memberAddress, ',,')}" />
