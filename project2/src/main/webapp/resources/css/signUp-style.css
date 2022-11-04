@@ -68,6 +68,7 @@
     letter-spacing: -1px;
 }
 
+/* confirm, error(유효성 검사) */
 .confirm{
     color:green;
 }
