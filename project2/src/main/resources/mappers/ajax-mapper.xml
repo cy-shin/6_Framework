@@ -3,15 +3,52 @@
 <mapper namespace="ajaxMapper">
 
 
+			<resultMap type="Member" id="member_rm">
+		  	<!-- DB에서 PK에 해당하는 필드, 컬럼을 작성하는 태그 -->
+				<id property="memberNo" column = "MEMBER_NO"/>
+				
+				<!-- 나머지 일반 컬럼 -->
+				<result property="memberEmail" column="MEMBER_EMAIL" />
+				<result property="memberPw" column="MEMBER_PW" />
+				<result property="memberNickName" column="MEMBER_NICKNAME" />
+				<result property="memberTel" column="MEMBER_TEL" />
+				<result property="memberAddress" column="MEMBER_ADDRESS" />
+				<result property="profileImage" column="PROFILE_IMG" />
+				<result property="enrollDate" column="ENROLL_DATE" />
+				<result property="memberDeleteFlag" column="MEMBER_DEL_FL" />
+				<result property="authority" column="AUTHORITY" />
+			
+			</resultMap>
+			
+			
 	<!-- 이메일 중복 검사 -->
 	<!-- parameterType : 파라미터의 자료형, 여기서는 memberEmail -->
 	<!-- parameterType에 String은 소문자로, 아니면 java.lang.String -->
 	<!-- resultType : 결과값의 자료형, 개수를 검색했기 때문에 int -->
-	<select id="emailDupCheck" parameterType="string" resultType="int">
+	<select id="emailDupCheck" parameterType="string" resultType="_int">
 		SELECT COUNT(*)
 		FROM "MEMBER"
 		WHERE MEMBER_EMAIL = #{memberEmail}
 		AND MEMBER_DEL_FL = 'N'
 	</select>
+	
+	<!-- 닉네임 중복 검사 -->
+	<!-- object를 int타입으로 형변환했기 때문에 int보단 Integer("_int")라 표기하는게 더 적절함 -->
+	<select id="nicknameDupCheck" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM "MEMBER"
+		WHERE MEMBER_NICKNAME = #{memberNickName}
+		AND MEMBER_DEL_FL = 'N'
+	</select>
 
+<!-- 이메일로 회원 정보 조회 -->
+	<select id="selectEmail" parameterType="string" resultMap="member_rm">
+		SELECT MEMBER_NO, MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_ADDRESS, 
+	   			 MEMBER_DEL_FL,
+	   			 TO_CHAR(ENROLL_DATE, 'YYYY"년" MM"월" DD"일"') AS ENROLL_DATE
+		FROM "MEMBER"
+		WHERE MEMBER_EMAIL = #{email}
+		AND ROWNUM = 1
+		ORDER BY MEMBER_NO DESC
+	</select>
 </mapper>

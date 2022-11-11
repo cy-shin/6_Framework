@@ -144,7 +144,8 @@
 
     <!-- jQuery 라이브러리(.js 파일) 추가 --> <!-- CDN 방식(파일을 인터넷에서 받아서 실행) -->
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-
+    <%-- jQuery가 스크립트 맨 위에 위치 --%>
+    
     <script src="/resources/js/member/signUp.js"></script>
 
 </body>

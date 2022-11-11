@@ -104,7 +104,7 @@ memberEmail.addEventListener("input", function(){
             type : "GET", //데이터 전달 방식(GET POST) (ajax에서는 주로 GET)
             success : (result) => { // 비동기 통신 성공, 응답을 받았을 때
                 // result : 서버로부터 받은 응답 데이터(매개변수 이름은 자유)
-                console.log(result);
+                // console.log(result);
 
                 if(result == 0) { // 중복 아님
                     emailMessage.innerText = "사용 가능한 이메일 입니다.";
@@ -248,12 +248,48 @@ memberNickName.addEventListener("input", function(){
     // 닉네임이 올바르게 입력된 경우
     if(regEx.test(memberNickName.value)) {
 
-        // 닉네임 중복 검사 코드 추가 예정 
+        //  ajax 닉네임 중복 검사 코드 추가
+        const param = {"memberNickName" : memberNickName.value};
+        //              key
 
-        nickMessage.innerText = "사용 가능한 닉네임입니다."
-        nickMessage.classList.add("confirm");
-        nickMessage.classList.remove("error");
-        checkObj.memberNickName = true;
+        $.ajax({
+            url : "/nicknameDupCheck", // url 반드시 작성
+            data : param,
+            type : "GET", // 타입 미작성 시 기본값 GET
+            success : (res) => { // 응답 성공 시
+                // 매개변수 res == 서버 비동기 통신 응답 데이터
+                // console.log("res : " + res);
+                if(res == 0) { // 중복 아님
+                    nickMessage.innerText = "사용 가능한 닉네임입니다."
+                    nickMessage.classList.add("confirm");
+                    nickMessage.classList.remove("error");
+                    checkObj.memberNickName = true;
+                } else {
+                    nickMessage.innerText = "이미 사용중인 닉네임 입니다."
+                    nickMessage.classList.add("error");
+                    nickMessage.classList.remove("confirm");
+                    checkObj.memberNickName = false;
+            }
+         },
+            error : () => { // 응답 실패 시
+                console.log("ajax 통신 실패");
+            },
+            complete : tempFn
+            // tempFn ==
+            // function tempFn(){
+            //     console.log("닉네임 검사 완료");
+            // }
+            // 이 위치에 tempFn을 적을 때와, tempFn()을 적었을 때의 차이?
+        });
+
+
+
+
+        // 연습
+        // nickMessage.innerText = "사용 가능한 닉네임입니다."
+        // nickMessage.classList.add("confirm");
+        // nickMessage.classList.remove("error");
+        // checkObj.memberNickName = true;
     } else {
         nickMessage.innerText = "닉네임 형식이 유효하지 않습니다."
         nickMessage.classList.add("error");
@@ -261,6 +297,12 @@ memberNickName.addEventListener("input", function(){
         checkObj.memberNickName = false;
     }
 })
+
+// 함수
+function tempFn(){
+    console.log("닉네임 검사 완료");
+}
+
 
 // 전화번호 유효성 검사
 const memberTel = document.getElementById("memberTel");

@@ -9,7 +9,8 @@
 
 
 	<!-- 		<cache-ref namespace=""/> 무조건 삭제!		-->
-	
+		
+		<!-- resultMap? -->
 		<!-- 마이바티스에서 select를 진행하는 경우 기본적으로 java 객체 필드명 == Result 컴럼명이 같을 때
 			  자동으로 객체에 세팅이 되는데
 		  
