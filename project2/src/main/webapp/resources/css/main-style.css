@@ -435,3 +435,23 @@ label[for="header-menu-toggle"]:hover {
     margin: 0;
     color: gray;
 }
+
+#content-1-2{
+    width: 500px;
+    margin: 50px auto;
+}
+
+/* 행 표시 */
+.secession{
+    background-color: black;
+    cursor: pointer;
+}
+
+.secession>td:first-of-type{
+    /* 중앙선 */
+    text-decoration: line-through; 
+}
+
+.secession:hover{
+    background-color: white;
+}

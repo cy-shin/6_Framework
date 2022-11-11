@@ -1,5 +1,7 @@
 package edu.kh.project.member.model.service;
 
+import java.util.List;
+
 import edu.kh.project.member.model.vo.Member;
 
 // 서비스 인터페이스 : 설계, 유지보수성 향상, AOP
@@ -25,6 +27,12 @@ public interface AjaxService {
 	 * @return
 	 */
 	Member selectEmail(String email);
+
+
+	/** 전체 회원 목록 조회!
+	 * @return
+	 */
+	List<Member> selectMemberList();
 	
 	
 	

@@ -51,4 +51,19 @@
 		AND ROWNUM = 1
 		ORDER BY MEMBER_NO DESC
 	</select>
+	
+	<!-- 이메일로 회원 리스트 조회 -->
+	<!-- SELECT로 검색한 한 행을 member객체에 담고.. 다음 행을 member 객체에 담고.. -->
+	<select id="selectMemberList" resultMap="member_rm">
+		SELECT MEMBER_NO, MEMBER_EMAIL, MEMBER_DEL_FL
+		FROM "MEMBER"
+		ORDER BY MEMBER_NO
+	</select>
+	
+	
+	
+	
+	
+	
+	
 </mapper>

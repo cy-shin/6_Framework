@@ -1,5 +1,7 @@
 package edu.kh.project.member.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -78,5 +80,22 @@ public class AjaxController {
 //		// Java 객체 반환 시 Jackson 라이브러리가 JS 객체로 변환시켜줌
 //		
 //	}
+	
+	
+	// 전체 회원 목록 조회
+	@GetMapping("/selectMemberList")
+	@ResponseBody
+	public String selectMemberList() {
+		
+		List<Member> memberList = service.selectMemberList();
+		
+		// 객체 1개를 표현 == JSON
+		// 객체 여러개가 담긴 배열 == JSONArray
+		// "[{},{},{},{}]"
+		
+		// System.out.println(memberList);
+		
+		return new Gson().toJson(memberList);
+	}
 	
 }

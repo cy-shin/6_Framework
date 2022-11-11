@@ -1,5 +1,7 @@
 package edu.kh.project.member.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +30,16 @@ public class AjaxServiceImpl implements AjaxService {
 		return dao.nicknameDupCheck(memberNickName);
 	}
 
-
+	// 이메일로 검색
 	@Override
 	public Member selectEmail(String email) {
 		return dao.selectEmail(email);
+	}
+
+	// 전체 회원 목록 조회
+	@Override
+	public List<Member> selectMemberList() {
+		return dao.selectMemberList();
 	}
 	
 }
