@@ -120,6 +120,7 @@ nav{
 
     position: sticky;
     /* 화면 밖으로 요소가 벗어났을 때, 지정된 위치에 고정 */
+    z-index: 456000;
     top: 0px;
     background-color: white;
     
