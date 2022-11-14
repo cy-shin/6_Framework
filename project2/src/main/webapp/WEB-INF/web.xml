@@ -7,10 +7,12 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		
+		<!-- 서버가 start되자마자 적용될 설정 파일 작성  -->
 		<!-- spring 폴더 이동 후 경로 변경 -->
 		<param-value>
 			classpath:spring/root-context.xml
 			classpath:spring/spring-security.xml
+			classpath:spring/email-context.xml
 		</param-value>
 	</context-param>
 	

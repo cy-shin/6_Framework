@@ -197,9 +197,9 @@ if(imageInput != null) {
                 // event.target.result : 읽어진 파일 결과(실제 이미지 파일)의 경로
                 event.target.result;
 
-                // img 태그의 src 속성으로 읽은 이미지 파일 경로 추가
-                // == 이미지 미리보기
-                profileImage.setAttribute("src", event.target.result);
+            // img 태그의 src 속성으로 읽은 이미지 파일 경로 추가
+            // == 이미지 미리보기
+            profileImage.setAttribute("src", event.target.result);
 
                 deleteCheck = 1;
             };
