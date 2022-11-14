@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="/resources/css/main-style.css">
 
     <link rel="stylesheet" href="/resources/css/signUp-style.css">
+
+    <script src="https://kit.fontawesome.com/f7459b8054.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <main>
