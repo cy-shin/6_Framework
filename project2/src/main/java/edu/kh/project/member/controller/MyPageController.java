@@ -2,6 +2,8 @@ package edu.kh.project.member.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.project.member.model.service.MyPageService;
@@ -167,5 +170,56 @@ public class MyPageController {
 		//    ...
 		//    status.complete(); // "loginMember" 무효화
 		
+	}
+	
+	// 마이페이지 이동
+	@GetMapping("/profile")
+	public String profile() {
+		return "member/myPage-profile";
+	}
+	
+	// 프로필 이미지 수정
+	@PostMapping("/updateProfile")
+	public String updateProfile(
+			@RequestParam(value="profileImage") MultipartFile profileImage,  /* 업로드된 파일 */
+			@SessionAttribute("loginMember") Member loginMember, /* 로그인 회원 정보 */
+			RedirectAttributes ra, /* 메세지 전달용 */
+			HttpServletRequest req /* 저장할 서버 경로 */
+			) throws Exception {
+	// RequestParam(value = 제출된 값 name)
+	// MultipartFile
+	// - MultipartResolver에 의해서 반환된 input type="file"의 값을 저장한 객체
+	
+	// * 관련 메서드
+	// 1) getOriginalFilename() : 파일 원본명
+	// 2) getSize() : 파일 크기
+	// 3) transferTo() : 메모리에 임시 저장된 파일을 지정된 경로에 저장
+		
+		// ** 업로드된 이미지를 프로젝트 폴더 내부에 저장하는 방법 **
+		// 1) server -> 지정된 서버 설정 -> Serve modules without publishing 체크
+		// 2) 파일을 저장할 폴더 생성
+		// 3) HttpServletRequest를 이용해서 저장 폴더 절대 경로 얻어오기
+		// 4) MultipartFile.transferTo()를 이용해서 지정된 경로에 파일 저장
+		
+		// 인터넷 주소로 접근할 수 있는 경로
+		String webPath = "/resources/images/memberProfile/";
+		
+		String filePath = req.getSession().getServletContext().getRealPath(webPath);
+						// getSession().getServletContext() : 어플리케이션 스코프 객체를 얻어옴
+						// 어플리케이션 스코프는 하나, 즉 프로그램 자체를 가리키는 것과 마찬가지
+						// 프로그램 내 경로를 찾는 코드
+		
+		int result = service.updateProfile(webPath, filePath, profileImage, loginMember);
+		
+		String message = null;
+		if(result > 0) message = "프로필 이미지가 변경되었습니다.";
+		else		   message = "프로필 이미지 변경 실패";
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:profile";
+		// return : view Resolver로 결과를 보내서 view를 요청함
+		// redirect : HandlerMapping으로 컨트롤러를 재요청
+//		return "redirect:/member/myPage/profile";
 	}
 }

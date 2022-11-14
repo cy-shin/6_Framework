@@ -63,5 +63,13 @@
 					MEMBER_DEL_FL = 'Y' 
 					WHERE MEMBER_NO = #{memberNo}
 				</update>
+				
+				<!-- 파라미터타입 : alias로 작성한 값 작성하거나 패키지 작성 -->
+				
+				<update id="updateProfile">
+					UPDATE "MEMBER" SET
+					PROFILE_IMG = #{profileImage}
+					WHERE MEMBER_NO = #{memberNo}
+				</update>
 			
 </mapper>

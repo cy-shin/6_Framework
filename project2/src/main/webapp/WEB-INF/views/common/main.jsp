@@ -126,8 +126,14 @@
                 <%-- 로그인 ㅇ인 경우 --%>
                 <c:otherwise>
                     <article class="login-area">
-                    <a href="#">
-                        <img id = "member-profile" src="/resources/images/dog.jpg">
+                    <a href="/member/myPage/profile">
+                        <c:if test="${empty loginMember.profileImage}"> <%-- 만약 profileImage가 비어있다.. --%>
+                            <img id="member-profile" src="/resources/images/user.png"> 
+                        </c:if>
+
+                        <c:if test="${!empty loginMember.profileImage}"> <%-- 만약 profileImage가 비어있지 않다.. --%>
+                            <img id="member-profile" src="${loginMember.profileImage}"> 
+                        </c:if>                        
                     </a>
 
                     <!--회원 정보 + 로그아웃 버튼 -->

@@ -49,10 +49,17 @@
 
                  --%>
 
-                <form action="updateProfile" method="POST" name="myPage-frm" enctype="multipart/form-data">
+                <form action="updateProfile" method="POST" name="myPage-frm" enctype="multipart/form-data" onsubmit="return profileValidate()">
 
                     <div class="profile-image-area">
-                        <img id="profile-image" src="/resources/images/user.png">
+                        <c:if test="${empty loginMember.profileImage}"> <%-- 만약 profileImage가 비어있다.. --%>
+                            <img id="profile-image" src="/resources/images/user.png"> 
+                        </c:if>
+
+                        <c:if test="${!empty loginMember.profileImage}"> <%-- 만약 profileImage가 비어있지 않다.. --%>
+                            <img id="profile-image" src="${loginMember.profileImage}"> 
+                        </c:if>
+
                     </div>
                     <span id="delete-image">&times;</span>
 
@@ -70,12 +77,12 @@
 
                     <div class="myPage-row">
                         <label>이메일</label>
-                        <span>user01@kh.or.kr</span>
+                        <span>${loginMember.memberEmail}</span>
                     </div>
 
                     <div class="myPage-row">
                         <label>가입일</label>
-                        <span>2035년 12월 31일 10시 39분 12초</span>
+                        <span>${loginMember.enrollDate}</span>
                     </div>
 
                 </form>
