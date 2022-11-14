@@ -140,3 +140,4 @@ JDBC2/driver.xml
 BookPractice/src/driver.xml
 LibraryManagement/driver.xml
 project1/forProject.sql
+project2/src/main/resources/spring/email-context.xml
