@@ -23,7 +23,7 @@
 
 	<!-- Processes application requests -->
 	<!-- 
-			서버를 start 하자마자 DispathcerServlet을 생성하는데
+			서버를 start 하자마자 DispathcerServlet을 생성
 						
 	 -->
 	<servlet>

@@ -123,7 +123,7 @@ public class MemberController {
 	 * [작성법]
 	 * @ModeAttribute VO타입 매개변수명
 	 * -> 파라미터의 name 속성 값이
-	 * 	  지정된 VO의 필드명과 같아면
+	 * 	  지정된 VO의 필드명과 같으면
 	 *    해당 VO 객체의 필드에 파라미터를 세팅
 	 *    
 	 * [조건]
