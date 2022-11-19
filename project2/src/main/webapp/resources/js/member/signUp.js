@@ -9,7 +9,7 @@ const checkObj = {
     "memberPwConfirm"   : false,
     "memberNickName"    : false,
     "memberTel"         : false,
-    "authKey"           : false
+    "authKey"           : true
 };
 
 // Map 형식에서 value값 불러오기 -> 변수명.key 또는 변수명["key"]를 이용하면 객체의 속성에 접근 가능
@@ -358,7 +358,7 @@ memberTel.addEventListener("input", function(){
 // --------------------------------------------------------------------------------------------------------------------------- //
 // 이메일 인증코드 발송 / 확인
 // 인증번호 발송
-const sendAuthKeyBtn = document.getElementById("sendAuthKeyBtn");
+/* const sendAuthKeyBtn = document.getElementById("sendAuthKeyBtn");
 const authKeyMessage = document.getElementById("authKeyMessage");
 let authTimer;
 let authMin = 4;
@@ -419,11 +419,11 @@ sendAuthKeyBtn.addEventListener("click", function(){
         memberEmail.focus();
     }
 
-});
+}); */
 
 
 // 인증 확인
-const authKey = document.getElementById("authKey");
+/* const authKey = document.getElementById("authKey");
 const checkAuthKeyBtn = document.getElementById("checkAuthKeyBtn");
 
 checkAuthKeyBtn.addEventListener("click", function(){
@@ -456,6 +456,4 @@ checkAuthKeyBtn.addEventListener("click", function(){
     } else{
         alert("인증 시간이 만료되었습니다. 다시 시도해주세요.")
     }
-
-
-});
+}); */
