@@ -45,7 +45,7 @@
                 </label>
                 <div class="signUp-input-area">
                     <input type="text" name="authKey" id="authKey" placeholder="인증번호 입력"
-                    maxlength="6" autocomplete="off" required>
+                    maxlength="6" autocomplete="off" > <!-- required 임시로 뻄 -->
                     <button type="button" id="checkAuthKeyBtn">인증하기</button>
                 </div>
                 <span id="authKeyMessage" class="signUp-message"></span>
