@@ -22,7 +22,7 @@
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" /> <!-- ojdbc 클래스 -->
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" /> <!-- 내 주소 --> 
 		<property name="username" value="project" /> <!-- DB아이디 -->
-		<property name="password" value="project1234" /> <!-- DB비밀번호 -->
+		<property name="password" value="projectJSP1234!" /> <!-- DB비밀번호 -->
 
 		<!-- SQL이 수행된 후 자동으로 Commit 되는것을 지정 -->
 		<property name="defaultAutoCommit" value="false" /> <!-- DB 오토커밋 -->
