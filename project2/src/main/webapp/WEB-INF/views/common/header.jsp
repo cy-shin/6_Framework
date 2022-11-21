@@ -42,7 +42,7 @@
                     <%-- 로그인 O인 경우 --%>
                     <c:otherwise>
                         <label for="header-menu-toggle">
-                            ${loginMember.memberNickname}
+                            ${loginMember.memberNickName}
                             <i class="fa-solid fa-caret-down"></i>
                         </label>
 
