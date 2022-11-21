@@ -55,4 +55,13 @@ public class BoardDAO {
 																// rowBounds는 반드시 3번쨰 자리에 위
 	}
 
+
+	/** 게시글 상세 조회 + 이미지 목록 조회 + 댓글 목록 조회
+	 * @param boardNo
+	 * @return
+	 */
+	public Board selectBoardDetail(int boardNo) {
+		return sqlSession.selectOne("boardMapper.selectBoardDetail", boardNo);
+	}
+
 }

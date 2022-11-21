@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.kh.project.board.model.service.BoardService;
+import edu.kh.project.board.model.vo.Board;
 
 @Controller
 public class BoardController {
@@ -40,5 +41,23 @@ public class BoardController {
 		model.addAttribute("map", map);
 		
 		return "board/boardList";
+	}
+	
+	// 게시글 상세조회
+	@GetMapping("/board/{boardCode}/{boardNo}")
+	public String boardDetail(
+			@PathVariable("boardNo") int boardNo,
+			@PathVariable("boardCode") int boardCode,
+			Model model) {
+		
+		
+		// 게시글 상세 조회 서비스 호출
+		Board board = service.selectBoardDetail(boardNo);
+		// 좋아요 수, 좋아요 여부
+		// 쿠키를 이용해서 해당 IP에서 하루 1회 조회수 증가
+		
+		model.addAttribute("board", board);
+		
+		return "board/boardDetail";
 	}
 }

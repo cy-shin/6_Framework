@@ -28,6 +28,7 @@
       	  select : 수행할 select 태그의 id
       	  column : select 수행 시 전달할 파라미터를 가지고있는 컬럼
     	 -->
+    	 
       <collection property="imageList" 
       	javaType="java.util.ArrayList" ofType="BoardImage"
         select="selectImageList" 
