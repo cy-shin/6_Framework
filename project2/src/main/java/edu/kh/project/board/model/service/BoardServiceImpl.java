@@ -51,4 +51,10 @@ public class BoardServiceImpl implements BoardService{
 		return dao.selectBoardDetail(boardNo);
 	}
 
+	// 게시글 상세 조회 성공 시 조회 수의 증가
+	@Override
+	public int updateReadCount(int boardNo) {
+		return dao.updateReadCount(boardNo);
+	}
+
 }

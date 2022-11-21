@@ -164,7 +164,10 @@
 		ORDER SIBLINGS BY COMMENT_NO
 	</select>
 	
-	
+	<update id="updateReadCount" parameterType="_int">
+		UPDATE "BOARD" SET READ_COUNT = READ_COUNT + 1
+		WHERE BOARD_NO = #{boardNo}
+	</update>
 
 
 
