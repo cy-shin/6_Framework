@@ -174,7 +174,7 @@ a:hover {
     position: relative;
 }
 
-/* 모달 */
+/* modal */
 .modal {
     position: fixed;
     top: 0;
@@ -211,6 +211,8 @@ a:hover {
 
 /* @keyframes : 
 애니메이션 중간중간의 특정 지점들을 거칠 수 있는 키프레임들을 설정함으로써 CSS 애니메이션 과정의 중간 절차를 제어할 수 있게 합니다.  */
+
+/* display 변경 시 transition 사용 불가 -> animation을 사용할 것 */
 @keyframes show {
     from {opacity: 0;}
     to {opacity: 1;}

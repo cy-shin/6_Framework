@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 
-<%-- map에 저장된 값을 꺼내서 각각 변수에 저장 --%>
-<c:set var="boardList" value="${map.boardList}" />
-<c:set var="pagination" value="${map.pagination}" />
+<%-- map에 저장된 값을 꺼내어 각각 변수에 저장 --%>
+<c:set var="boardList" value="${map.boardList}"/>
+<c:set var="pagination" value="${map.pagination}"/>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,10 +45,10 @@
                     </thead>
 
                     <tbody>
-                   		<!-- 게시글 목록 조회 결과가 비어있다면 -->
+
                         <c:choose>
                             <c:when test="${empty boardList}">
-
+                                <!-- 게시글 목록 조회 결과가 비어있다면 -->
                                 <tr>
                                     <th colspan="6">게시글이 존재하지 않습니다.</th>
                                 </tr>
@@ -54,16 +56,19 @@
 
                             <c:otherwise>
                                 <c:forEach var="board" items="${boardList}">
-                                    <!-- 게시글 목록 조회 결과가 있지 않다면 -->
                                     <tr>
-                                        <td>${board.boardNo}</td>
+                                        <td>${board.boardNo}</td>   
                                         <td> 
-                                            <!-- 썸네일이 있는 경우에만 출력 -->
+
+                                            <%-- 썸네일이 있을 경우에만 출력 --%>
                                             <c:if test="${not empty board.thumbnail}">
                                                 <img class="list-thumbnail" src="${board.thumbnail}">
                                             </c:if>
-            
 
+                                            
+                                            <%-- /board/1/1500 
+                                                /board/{boardCode}/{boardNo}
+                                            --%>
                                             <a href="/board/${boardCode}/${board.boardNo}">${board.boardTitle}</a>   
                                             [${board.commentCount}]                        
                                         </td>
@@ -72,13 +77,9 @@
                                         <td>${board.readCount}</td>
                                         <td>${board.likeCount}</td>
                                     </tr>
-                                </c:forEach>
-
-
+                                </c:forEach>                                                        
                             </c:otherwise>
                         </c:choose>
-
-
 
                     </tbody>
                 </table>
@@ -95,52 +96,35 @@
 
             <div class="pagination-area">
 
-
                 <ul class="pagination">
                 
+                    
                     <!-- 첫 페이지로 이동 -->
-                    <li><a href="/board/${boardCode}?cp=${boardCode}">&lt;&lt;</a></li>
+                    <li><a href="/board/${boardCode}">&lt;&lt;</a></li>
 
                     <!-- 이전 목록 마지막 번호로 이동 -->
                     <li><a href="/board/${boardCode}?cp=${pagination.prevPage}">&lt;</a></li>
 
+                    <c:forEach var="i" begin="${pagination.startPage}" 
+                        end="${pagination.endPage}" step="1">
 
-                    <c:forEach var="i" begin="${pagination.startPage}"
-                               end="${pagination.endPage}" 
-                               step="1">
+                        <c:choose>
+                            <c:when test="${i == pagination.currentPage}">
+                                <!-- 현재 보고있는 페이지 -->
+                                <li><a class="current">${i}</a></li>
+                            </c:when>
 
-                               <c:choose>
-                                    <c:when test="${i == pagination.currentPage}">
-                                    
-                                
-                                </c:when>
-                               </c:choose>
+                            <c:otherwise>
+                                <!-- 현재 페이지를 제외한 나머지 -->
+                                <li><a href="/board/${boardCode}?cp=${i}">${i}</a></li>
+                            </c:otherwise>
+                        </c:choose>
 
                     </c:forEach>
-
-					
-                    <!-- 특정 페이지로 이동 -->
-                    
-                    <!-- 현재 보고있는 페이지 -->
-                    <li><a class="current">1</a></li>
-                    
-                    <!-- 현재 페이지를 제외한 나머지 -->
-                    <!-- <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">6</a></li>
-                    <li><a href="#">7</a></li>
-                    <li><a href="#">8</a></li>
-                    <li><a href="#">9</a></li>
-                    <li><a href="#">10</a></li> -->
                     
                     <!-- 다음 목록 시작 번호로 이동 -->
                     <li><a href="/board/${boardCode}?cp=${pagination.nextPage}">&gt;</a></li>
 
-                    <c:otherwise>
-                        <!-- 현재 페이지를 제외한 나머지-->
-                    </c:otherwise>
                     <!-- 끝 페이지로 이동 -->
                     <li><a href="/board/${boardCode}?cp=${pagination.maxPage}">&gt;&gt;</a></li>
 
@@ -176,6 +160,6 @@
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
-
+    <script src="/resources/js/board/boardList.js"></script>
 </body>
 </html>
