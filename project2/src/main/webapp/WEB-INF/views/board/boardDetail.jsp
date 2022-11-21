@@ -45,6 +45,25 @@
 
                     <span>${board.memberNickname}</span>
 
+                    <!-- 좋아요 -->
+                    <span class="like-area">
+
+                        <!-- likeCheck가 없다면 로그인 X 또는 좋아여 x 중이다 -->
+                        
+                            <!-- 속이 빈 하트 -->
+                            <!-- likeCheck가 있다면 조회수 증가, 옆집 스프레이 유입 막기 -->
+                            <c:if test="${empty likeCheck}">
+                                <i class="fa-regular fa-heart" id="boardLike"></i>
+                            </c:if>
+                            
+                            
+                            <!-- 속이 찬 하트 -->
+                            <c:if test="${not empty likeCheck}">
+                                <i class="fa-solid fa-heart" id="boardLike"></i>
+                            </c:if>
+
+                        <span>${board.likeCount}</span>
+                    </span>
                 </div>
 
                 <div class="board-info">
@@ -142,6 +161,21 @@
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
+    <!-- jsp 내장 객체에 세팅 값을 JS에서 얻어가는 방법 1 : 화면에 값을 숨겨놓고, JS를 이용해서 값을 얻음 -->
+    <input type="hidden" name="memberNo" value="${loginMember.memberNo}">
+
+    <!-- jsp 내장 객체에 세팅 값을 JS에서 얻어가는 방법 2 : script 태그를 이용해서 전역변수로 선언하는 방법 -->
+    <script>
+        const memberNo = "${loginMember.memberNo}";
+        // *** JS에 EL/JSTL 사용 시, 양쪽에 "" 또는 ''를 붙이는 것을 권장
+        // 왜? 값이 없어서 공백이 되더라도 ""(빈문자열)로 인식하여 에러 발생을 막아주기 때문
+
+        const boardNo = "${boardNo}";
+    </script>
+
+    <%-- jQuery CDN 방식으로 추가 --%>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    
     <script src="/resources/js/board/board.js"></script>
 </body>
 </html>
