@@ -136,7 +136,7 @@ public class BoardServiceImpl implements BoardService{
 					BoardImage img = new BoardImage();
 					
 					// BoardImage 값 세팅
-					img.setImagePath(folderPath);
+					img.setImagePath(webPath);
 					
 					    // 원본 파일명 -> 변경된 파일명
 					String reName = Util.fileRename(imageList.get(i).getOriginalFilename());
@@ -172,7 +172,7 @@ public class BoardServiceImpl implements BoardService{
 						int index = boardImageList.get(i).getImageOrder();
 						
 						// 실제 파일로 변환
-						imageList.get(index).transferTo(new File(folderPath + reNameList));
+						imageList.get(index).transferTo(new File(folderPath + reNameList.get(i)));
 					}
 				}
 			}
