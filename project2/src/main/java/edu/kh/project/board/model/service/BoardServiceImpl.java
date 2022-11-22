@@ -1,5 +1,9 @@
 package edu.kh.project.board.model.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.DrbgParameters.NextBytes;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,10 +11,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.kh.project.board.model.dao.BoardDAO;
 import edu.kh.project.board.model.vo.Board;
+import edu.kh.project.board.model.vo.BoardImage;
 import edu.kh.project.board.model.vo.Pagination;
+import edu.kh.project.common.Util;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -82,6 +89,99 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int boardLikeDown(Map<String, Object> paramMap) {
 		return dao.boardLikeDown(paramMap);
+	}
+
+	
+	// 게시글 삭제(UPDATE)
+	@Override
+	public int boardDelete(Map<String, Object> map) {
+		return dao.boardDelete(map);
+	}
+	
+	// 게시글 삽입
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int boardWrite(Board board, List<MultipartFile> imageList, String webPath, String folderPath) throws IOException {
+		
+		// 1. 게시글만 삽입
+		// 1) XSS(Cross Site Script 공격), 개행문자 처리
+		board.setBoardTitle( Util.XSSHandling(board.getBoardTitle()));
+		
+		board.setBoardContent( Util.XSSHandling(board.getBoardContent()));
+		
+		// 순서에 따라서 다른 코드가 수행되지 않을 수 있으므로, 항상 XSS를 먼저 처리할 것
+		board.setBoardContent(Util.newLineHandling(board.getBoardContent()));
+		// 2) 게시글 삽입 DAO 호출 후
+		//    결과로 삽입된 게시글 번호 반환받기
+		int boardNo = dao.boardWrite(board);
+		
+		// 2. 이미지만 삽입
+		if(boardNo > 0) {
+			// imageList : 실제 파일이 담겨있는 리스트
+			// boardImageList : DB에 삽입할 이미지 정보만 담겨있는 리스트
+			// reNameList : 변경된 파일명만 담겨있는 리스트
+			
+			List<BoardImage> boardImageList = new ArrayList<BoardImage>();
+			List<String> reNameList = new ArrayList<String>();
+			
+			// imageList에 담겨있는 파일 중
+			// 실제로 업로드된 파일만 분류하는 작업 진행
+			
+			for(int i=0; i<imageList.size(); i++) {
+				
+				// i번째 파일의 크기가 0보다 크다 == 업로드된 파일이 있다
+				if(imageList.get(i).getSize() > 0) {
+					
+					// boardImage 객체 생성
+					BoardImage img = new BoardImage();
+					
+					// BoardImage 값 세팅
+					img.setImagePath(folderPath);
+					
+					    // 원본 파일명 -> 변경된 파일명
+					String reName = Util.fileRename(imageList.get(i).getOriginalFilename());
+					img.setImageReName(reName);
+					reNameList.add(reName); // 변경 파일명 리스트에 추가
+					
+						// 원본 파일명
+					img.setImageOriginal(imageList.get(i).getOriginalFilename());
+					
+					img.setBoardNo(boardNo); // 첨부된 게시글 번호
+					
+					img.setImageOrder(i); // 이미지 순서
+					
+					// boardImageList에 추가
+					boardImageList.add(img);
+					
+				} // if
+			} // for
+			
+			// boardImageList가 비어있지 않다면
+			// == 업로드된 파일이 있어서 분류된 내용이 존재
+			if(!boardImageList.isEmpty()) {
+				
+				// DB에 업로드된 파일 정보 INSERT
+				int result = dao.insertBoardImageList(boardImageList);
+				
+				// 삽입 결과 행의 수 == DB에 삽입하려고 분류한 리스트의 크기
+				// 전부 다 삽입된 경우
+				if(result == boardImageList.size() ) {
+					// 파일 변환 작업
+					for(int i=0 ; i<boardImageList.size(); i++) {
+						// 순서 == imageList의 인덱스
+						int index = boardImageList.get(i).getImageOrder();
+						
+						// 실제 파일로 변환
+						imageList.get(index).transferTo(new File(folderPath + reNameList));
+					}
+				}
+			}
+			
+		}
+		
+		
+		return boardNo;
+		
 	}
 
 }

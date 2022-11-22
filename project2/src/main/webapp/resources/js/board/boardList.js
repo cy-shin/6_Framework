@@ -36,4 +36,20 @@
 
     }
 
-}) ()
+}) ();
+
+
+// 글쓰기 버튼
+
+
+( () => {
+    const insertBtn = document.getElementById("insertBtn");
+
+    if(insertBtn != null) {
+        insertBtn.addEventListener("click", () => {
+            location.href = "/write/" + boardCode; // Get방식으로 요청
+        })
+    }
+
+
+})();
