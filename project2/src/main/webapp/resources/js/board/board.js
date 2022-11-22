@@ -92,3 +92,20 @@ boardLike.addEventListener("click", e => {
 
 
     })
+
+
+// 게시글 삭제
+const deleteBtn = document.getElementById("deleteBtn");
+
+deleteBtn.addEventListener("click", () => {
+
+    if(confirm("정말 삭제 하시겠습니까?")) {
+
+        // /board/{boardCode}/{boardNo}/delete GET
+        // /board/1/1993/delete
+        location.href = location.pathname + "/delete";
+        
+    }
+
+
+})
