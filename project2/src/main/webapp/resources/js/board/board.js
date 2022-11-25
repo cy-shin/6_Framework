@@ -21,7 +21,7 @@ goToListBtn.addEventListener("click", () => {
 })
 
 // 좋아요 버튼 클릭 시 동작
-// (전역변수 memberNO, boardNo) 사용(by boardDetail.jsp)
+// (전역변수 memberNo, boardNo) 사용(by boardDetail.jsp)
 const boardLike = document.getElementById("boardLike");
 
 boardLike.addEventListener("click", e => {
@@ -82,8 +82,6 @@ boardLike.addEventListener("click", e => {
 
             error: () => { console.log("감소 에러"); }
         });
-
-
 
 /*         e.target.classList.add('fa-regular'); // 채워진 하트 클래스 삭제
         e.target.classList.remove('fa-solid'); // 빈 하트 클래스 추가
