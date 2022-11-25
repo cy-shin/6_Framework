@@ -30,12 +30,14 @@
                     <!-- 로그인한 경우 -->
                     <c:if test="${!empty loginMember}">
                         <div class="comment-btn-area">
-                            <button>답글</button>
+                            <%-- this = 클릭된 답글 버튼 --%>
+                            <button onclick="showInsertComment(${comment.commentNo}, this)">답글</button>
+
 
                            <!-- 로그인 유저의 memberNo가 댓글을 작성한 유저의 memberNo와 같은경우 -->
                           <c:if test="${loginMember.memberNo == comment.memberNo}">
-                                  <button>수정</button>     
-                                  <button>삭제</button>
+                                  <button onclick="showUpdateComment(${comment.commentNo}, this)">수정</button>     
+                                  <button onclick="deleteComment(${comment.commentNo})">삭제</button>
                           </c:if>
                           
                         </div>
