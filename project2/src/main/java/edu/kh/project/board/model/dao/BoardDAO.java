@@ -53,7 +53,7 @@ public class BoardDAO {
 		
 		return sqlSession.selectList("boardMapper.selectBoardList", boardCode, rowBounds);
 																// 파라미터가 없는 경우 null을 직접 대입
-																// rowBounds는 반드시 3번쨰 자리에 위
+																// rowBounds는 반드시 3번쨰 자리에 위치
 	}
 
 
@@ -171,6 +171,31 @@ public class BoardDAO {
 	 */
 	public int boardImageInsert(BoardImage img) {
 		return sqlSession.insert("boardMapper.boardImageInsert", img);
+	}
+
+
+	/** 검색 조건이 일치하는 게시글 수 조회
+	 * @param pm
+	 * @return listCount
+	 */
+	public int getListCount(Map<String, Object> pm) {
+		return sqlSession.selectOne("boardMapper.getListCount_search", pm);
+	}
+
+
+	/** 검색 조건이 일치하는 게시글 목록 조회
+	 * @param pagination
+	 * @param pm
+	 * @return boardList
+	 */
+	public List<Board> selectBoardList(Pagination pagination, Map<String, Object> pm) {
+		int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+				// offset : 건너뛸 행 개수
+				// limit : 
+		
+		return sqlSession.selectList("boardMapper.selectBoardList_search", pm, rowBounds);
 	}
 
 }
