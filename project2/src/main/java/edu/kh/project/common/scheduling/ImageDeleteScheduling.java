@@ -2,6 +2,7 @@ package edu.kh.project.common.scheduling;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -74,13 +75,33 @@ public class ImageDeleteScheduling {
 		List<String> dbList = service.selectImageList();
 		
 		// 2. Server에 저장된 모든 이미지 파일 조회
-		String folderPath = application.getRealPath("/resources/image/board");
+		String folderPath = application.getRealPath("/resources/images/board");
 		
 		// 지정된 경로에 존재하는 파일 목록을 배열로 반환
 		File[] arr = new File(folderPath).listFiles();
 		
-		// 3. 둘을 비교해서 Server 이미지 목록 중 DB에 없는 이미지를 삭제
+		// 배열 -> List로 변환
+		List<File> fileList = Arrays.asList(arr);
 		
+		// 3. 둘을 비교해서 Server 이미지 목록 중 DB에 없는 이미지를 삭제
+		if(!fileList.isEmpty()) { // 서버에 파일이 있다면..
+			for(File file : fileList) {
+				// file.toString() 파일이 저장된 경로가 반환 예)..../resources/images/board/대충 경로.....
+				
+				// file.toString() 결과에서, 끝에서부터 확인해서, 첫 번째 /가 있는 위치의 다음 위치부터 끝까지 잘라냄
+				// 예) .../resources/images/board/thisissample.jpg -> thisissample.jpg
+//				String fileName = file.toString().substring( file.toString().lastIndexOf("\\") + 1);
+				String fileName = file.getName();
+				
+				// dbList에서 fileName과 일치하는 파일명이 없다면...
+				// == 서버에는 있는데, DB에 없는 파일
+				if(dbList.indexOf(fileName) == -1) {
+					System.out.println(fileName + "삭제");
+					file.delete(); // 서버 파일 삭제
+				}
+				
+			}
+		}
 		
 	}
 }
