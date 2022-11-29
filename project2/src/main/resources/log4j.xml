@@ -21,7 +21,7 @@
    <!-- //날짜별 로그 파일 생성 하기 -->
    <!-- file 경로에는 c드라이브 하위의 경로 작성  -->
    <appender name="dailyRollingFile" class="org.apache.log4j.DailyRollingFileAppender">
-       <param name="File" value="/workspace/6_Framework/spring/project2/logs/runtime.log" />
+ 				<param name="File" value="/workspace/6_Framework/project2/logs/runtime.log" />
        <param name="Append" value="true" />
        <param name="encoding" value="UTF-8" />
        <param name="DatePattern" value="'.'yyyy-MM-dd" />
