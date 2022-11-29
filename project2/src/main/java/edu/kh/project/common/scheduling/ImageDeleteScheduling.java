@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -69,6 +71,10 @@ public class ImageDeleteScheduling {
 	@Autowired
 	private ServletContext application; // application scope 객체
 	
+	// 로그를 출력하는 객체 얻어오기
+	// org.slf4j.Logger
+	private Logger logger = LoggerFactory.getLogger(ImageDeleteScheduling.class);
+	
 	@Scheduled(cron = "0 * * * * *") // 매 분 0초마다
 	public void deleteImageFile() {
 		// 1. DB에서 BOARD_IMG 테이블의 모든 이미지 변경명을 조회
@@ -96,12 +102,16 @@ public class ImageDeleteScheduling {
 				// dbList에서 fileName과 일치하는 파일명이 없다면...
 				// == 서버에는 있는데, DB에 없는 파일
 				if(dbList.indexOf(fileName) == -1) {
-					System.out.println(fileName + "삭제");
+//					System.out.println(fileName + "삭제");
+					// trace , debug , info , warn , error , fatal
+					logger.info(fileName + " 삭제 ");
 					file.delete(); // 서버 파일 삭제
 				}
 				
 			}
 		}
+		
+		logger.info("이미지 파일 삭제 스케줄링 완료");
 		
 	}
 }
