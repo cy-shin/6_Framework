@@ -64,6 +64,7 @@
 
         <%-- message 1회 출력 후 session scope에서 삭제 --%>
         <c:remove var="message" />
-    </c:if>    
+    </c:if>
+        
 </body>
 </html>

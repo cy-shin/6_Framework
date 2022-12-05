@@ -155,6 +155,15 @@
         </section>
     </main>
 
+    <c:if test="${!empty message}">
+        <script>
+            alert("${message}")
+        </script>
+
+        <%-- message 1회 출력 후 session scope에서 삭제 --%>
+        <c:remove var="message" />
+    </c:if>   
+    
     <%-- footer.jsp 포함 --%>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>  
 
